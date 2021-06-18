@@ -1,0 +1,160 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+
+using namespace std;
+
+struct node {
+    int data;
+    node* next;
+    node* prev;
+};
+
+node* headNode = NULL;
+node* tailNode = NULL;
+
+void revTraverse();
+void traverse();
+void insertionAtStart();
+void insertionAtEnd();
+void deletionAtEnd();
+void deletionAtStart();
+void deletionOption();
+
+int main() {
+    system("color 02");
+    char insertOrNot = 'y', option;
+
+    do {
+        system("cls");
+        traverse();
+        cout << "\n\nEnter your choice\n\n";
+        cout << "1 for Insert at the end\n";
+        cout << "2 for for Insertion at the start\n";
+        cout << "3 for Deletion at the Start\n";
+        cout << "4 for Deletion at the End\n";
+        cout << "5 for traversing list\n";
+        cout << "6 for reverse traversing list\n";
+        cout << "0 to Exit\n";
+
+        option = getch();
+
+        switch(option) {
+        case '1':
+            cout << "\nEnter data value: "; insertionAtEnd();
+            break;
+        case '2':
+            cout << "\nEnter data value: "; insertionAtStart();
+            break;
+        case '3':
+            deletionAtStart();
+            break;
+        case '4':
+            deletionAtEnd();
+            break;
+        case '5':
+            traverse();
+            cout <<"\nPress any key to continue..."; getch();
+            break;
+        case '6':
+            revTraverse();
+            cout <<"\nPress any key to continue..."; getch();
+            break;
+        case '0':
+            exit(0);
+            break;
+        default:
+            cout << "Invalid Selection. Press Enter to try again.";
+            getch();
+        }
+
+        /*cout << "\nenter data value: "; insertion();
+        cout << "do you want to insert a new node? (y/n): ";
+        cin >> insertOrNot;
+        traverse();*/
+    } while (option != 0);
+}
+
+void revTraverse() {
+    node* temp = new node;
+    temp = tailNode;
+    if (temp == NULL) {
+        cout << "Currently the list is empty.";
+        return;
+    }
+    cout << endl << "Linked List: " << endl;;
+    while (temp != NULL) {
+        cout << temp->data << ',';
+        temp = temp->prev;
+    }
+}
+
+void traverse() {
+    node* temp = new node;
+    temp = headNode;
+    if (temp == NULL) {
+        cout << "Currently the list is empty.";
+        return;
+    }
+    cout << endl << "Linked List: " << endl;;
+    while (temp != NULL) {
+        cout << temp->data << ',';
+        temp = temp->next;
+    }
+}
+
+void insertionAtEnd() {
+    node* temp = new node;
+    cin >> temp->data;
+    temp->next = NULL;
+    if (headNode == NULL) {
+        headNode = temp;
+        tailNode = temp;
+        temp->next = NULL;
+        temp->prev = NULL;
+    } else {
+        tailNode->next = temp;
+        temp->prev = tailNode;
+        tailNode = temp;
+        temp->next = NULL;
+    }
+
+}
+
+void insertionAtStart() {
+    node* temp = new node;
+    cin >> temp->data;
+
+    if (headNode == NULL) {
+        tailNode = temp;
+    } else {
+        headNode->prev = temp;
+    }
+
+    temp->next = headNode;
+    headNode = temp;
+}
+
+void deletionAtEnd() {
+    node* temp = tailNode;
+
+    if (tailNode->prev == NULL) {
+        headNode = NULL;
+    } else {
+        tailNode->prev->next = NULL;
+    }
+
+    tailNode = tailNode->prev;
+}
+
+void deletionAtStart() {
+    node* temp = headNode;
+
+    if (headNode->next == NULL) {
+        tailNode = NULL;
+    } else {
+        headNode->next->prev = NULL;
+    }
+
+    headNode = headNode->next;
+}
